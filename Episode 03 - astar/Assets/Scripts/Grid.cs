@@ -7,11 +7,11 @@ public class Grid : MonoBehaviour {
 	public LayerMask unwalkableMask;
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
-	Node[,] grid;
+	Node[,] grid;//网格用二维数组绘制
 
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
-
+	//awake()函数在start函数调用之前调用，在调用脚本之前用来进行初始化
 	void Awake() {
 		nodeDiameter = nodeRadius*2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
@@ -31,10 +31,10 @@ public class Grid : MonoBehaviour {
 			}
 		}
 	}
-
+//模板类，获得邻居
 	public List<Node> GetNeighbours(Node node) {
 		List<Node> neighbours = new List<Node>();
-
+		//遍历周围8个邻居
 		for (int x = -1; x <= 1; x++) {
 			for (int y = -1; y <= 1; y++) {
 				if (x == 0 && y == 0)
@@ -44,7 +44,7 @@ public class Grid : MonoBehaviour {
 				int checkY = node.gridY + y;
 
 				if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY) {
-					neighbours.Add(grid[checkX,checkY]);
+					neighbours.Add(grid[checkX,checkY]);//加入open表
 				}
 			}
 		}
@@ -64,15 +64,16 @@ public class Grid : MonoBehaviour {
 		return grid[x,y];
 	}
 
-	public List<Node> path;
+	public List<Node> path;//注意这里path是一个列表
 	void OnDrawGizmos() {
+		//使用 center 和 size 绘制一个线框盒体。两个参数：位置和大小
 		Gizmos.DrawWireCube(transform.position,new Vector3(gridWorldSize.x,1,gridWorldSize.y));
 
 		if (grid != null) {
 			foreach (Node n in grid) {
 				Gizmos.color = (n.walkable)?Color.white:Color.red;
 				if (path != null)
-					if (path.Contains(n))
+					if (path.Contains(n))//所以这里的方法应该是list.contains,确定元素是否存在于列表中
 						Gizmos.color = Color.black;
 				Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter-.1f));
 			}
