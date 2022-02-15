@@ -11,14 +11,14 @@ public class Node {
 	public int gCost;
 	public int hCost;
 	public Node parent;
-	
+	//构造函数
 	public Node(bool _walkable, Vector3 _worldPos, int _gridX, int _gridY) {
 		walkable = _walkable;
 		worldPosition = _worldPos;
 		gridX = _gridX;
 		gridY = _gridY;
 	}
-
+	//计算f值
 	public int fCost {
 		get {
 			return gCost + hCost;
