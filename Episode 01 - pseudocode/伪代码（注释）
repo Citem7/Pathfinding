@@ -1,0 +1,57 @@
+两个表，open和closed
+open：将要估计的点
+closed:已经估计的点
+
+OPEN //the set of nodes to be evaluated
+CLOSED //the set of nodes already evaluated
+
+将起点放入open表
+
+add the start node to OPEN
+
+循环
+
+loop
+
+将open表中f(g+h)值最小的点作为当前点
+
+        current = node in OPEN with the lowest f_cost
+
+将当前点从open表移入closed表
+
+        remove current from OPEN
+
+        add current to CLOSED
+
+如果当前点就是目标点，结束，也叫做“提前结束”
+ 
+        if current is the target node //path has been found
+                return
+ 
+如果不是目标点，那么我们就要找该点的邻居，每一个邻居，
+
+	如果该点的邻居是障碍物，不可穿越或者该邻居在closed表
+		
+		跳过该邻居去找下一个邻居
+		
+	如果新的到达邻居的路径比原来的更短，或者该邻居还没进入open表
+		
+		更短的：更新该邻居的f（g+h）值
+
+			更新邻居的父节点，也就是上一个点
+			
+		如果还没进入open表，
+			
+			将点加入open表
+
+			
+
+        foreach neighbour of the current node
+                if neighbour is not traversable or neighbour is in CLOSED
+                        skip to the next neighbour
+ 
+                if new path to neighbour is shorter OR neighbour is not in OPEN
+                        set f_cost of neighbour
+                        set parent of neighbour to current
+                        if neighbour is not in OPEN
+                                add neighbour to OPEN
