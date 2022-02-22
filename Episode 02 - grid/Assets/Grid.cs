@@ -37,7 +37,9 @@ public class Grid : MonoBehaviour {
 			}
 		}
 	}
-	//？？
+	//从函数名字我们就能知道，从世界坐标变成格子
+	//先将世界坐标变成百分比，然后将百分比乘以格子总数，就得到格子的位置
+	//Vector3 worldPosition=>grid[x,y]
 	public Node NodeFromWorldPoint(Vector3 worldPosition) {
 		float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
 		float percentY = (worldPosition.z + gridWorldSize.y/2) / gridWorldSize.y;
