@@ -32,10 +32,14 @@ public class Pathfinding : MonoBehaviour {
 			Node node = openSet[0];
 			//这个循环在找f值最小的那个，但是为什么要比较h值呢。会不会是因为计算g值会出现偏差，导致g值可能会比真实值偏大
 			for (int i = 1; i < openSet.Count; i ++) {
+				//因为当f值相同的时候，就比较h值，因为h值记录的估计值，也就是距离目标点的距离
 				if (openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost) {
 					if (openSet[i].hCost < node.hCost)
 						node = openSet[i];
-				}
+				
+				//上面这两个if语句可以合并成一个
+				//if (openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost && openSet[i].hCost < node.hCost)
+				//	node = openSet[i];
 			}
 			//将该点从open表移入closed表
 			openSet.Remove(node);
