@@ -5,12 +5,13 @@ using System.Collections.Generic;
 public class Pathfinding : MonoBehaviour {
 
 	public Transform seeker, target;
+	//创建一个网格
 	Grid grid;
-
+	//awake()在脚本调用之前调用，完成对场景初始化的任务
 	void Awake() {
-		grid = GetComponent<Grid> ();
+		grid = GetComponent<Grid> ();//获得网格组件
 	}
-
+	//seeker应该是探测器
 	void Update() {
 		FindPath (seeker.position, target.position);//seeker这个点应该不是起点，是每次都会更新的点，那会是什么呢
 	}
@@ -24,7 +25,7 @@ public class Pathfinding : MonoBehaviour {
 		//HashSet包含一组不重复出现且无特性顺序的元素
 		//HashSet的值不重复且没有顺序，容量会按需自动增加。
 		//这个类主要是设计用来做高性能集运算的，例如对两个集合求交集、差集、并集、补集等。
-		HashSet<Node> closedSet = new HashSet<Node>();//
+		HashSet<Node> closedSet = new HashSet<Node>();
 		openSet.Add(startNode);
 
 		while (openSet.Count > 0) {
@@ -80,7 +81,7 @@ public class Pathfinding : MonoBehaviour {
 		grid.path = path;
 
 	}
-
+	//获取距离，对角线距离，有对角线
 	int GetDistance(Node nodeA, Node nodeB) {
 		int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
 		int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
