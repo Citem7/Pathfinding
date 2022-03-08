@@ -53,7 +53,12 @@ public class Grid : MonoBehaviour {
 	}
 	
 	//将世界坐标转换成网格坐标
-	//怎么
+	//世界空间就是以此物体中心点为原点，物体的朝向为z轴，右方向为x轴，上方向为y轴
+	//怎么转换
+	//世界坐标原点在中心
+	//网格坐标原点在左下角
+	//同时，世界的z轴是网格的y轴
+	//通过百分比的方式转换
 	public Node NodeFromWorldPoint(Vector3 worldPosition) {
 		float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
 		float percentY = (worldPosition.z + gridWorldSize.y/2) / gridWorldSize.y;
