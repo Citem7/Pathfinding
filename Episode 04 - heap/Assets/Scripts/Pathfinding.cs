@@ -20,12 +20,14 @@ public class Pathfinding : MonoBehaviour {
 
 		Node startNode = grid.NodeFromWorldPoint(startPos);
 		Node targetNode = grid.NodeFromWorldPoint(targetPos);
-
+		//这里实现堆
 		Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
 		HashSet<Node> closedSet = new HashSet<Node>();
 		openSet.Add(startNode);
 
 		while (openSet.Count > 0) {
+			//这里就十分优雅的获取到最小f值的元素 RemoveFirst()
+			//其他地方基本没变
 			Node currentNode = openSet.RemoveFirst();
 			closedSet.Add(currentNode);
 
