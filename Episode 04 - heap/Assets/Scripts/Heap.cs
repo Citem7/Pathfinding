@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+using System;//
 //堆栈，完全二叉树中：
 //parent：(n-1)/2
 //left_child :2n+1
 //right_child:2n+2
 //节点向上走，只需要和父节点比较就好
 //节点向下走，需要和两个孩子比较
+//where关键字说明泛型T的由来
 public class Heap<T> where T : IHeapItem<T> {
 	//items这是一个数组叭,泛型编程
 	T[] items;
 	int currentItemCount;
 	//初始化堆
+	//从一开始就要知道堆的最大大小，因为数组很难确定
 	public Heap(int maxHeapSize) {
 		items = new T[maxHeapSize];
 	}
@@ -50,7 +52,9 @@ public class Heap<T> where T : IHeapItem<T> {
 			return currentItemCount;
 		}
 	}
-	//判断堆中该索引所代表元素是否和数组中一样
+	
+	//这个函数是用来检查这个堆中是否包含特定的项
+	//可是这个函数也没有遍历啊
 	public bool Contains(T item) {
 		return Equals(items[item.HeapIndex], item);
 	}
@@ -94,12 +98,13 @@ public class Heap<T> where T : IHeapItem<T> {
 	}
 	
 	void SortUp(T item) {
+		//向上构建，只需要和父节点进行比较就好啦
 		int parentIndex = (item.HeapIndex-1)/2;
 		
 		while (true) {
 			T parentItem = items[parentIndex];
 			if (item.CompareTo(parentItem) > 0) {
-				Swap (item,parentItem);
+				 Swap (item,parentItem);
 			}
 			else {
 				break;
@@ -113,13 +118,19 @@ public class Heap<T> where T : IHeapItem<T> {
 		//不仅要交换数组中的位置，还要交换堆中的索引
 		items[itemA.HeapIndex] = itemB;
 		items[itemB.HeapIndex] = itemA;
+		//交换堆索引值
 		int itemAIndex = itemA.HeapIndex;
 		itemA.HeapIndex = itemB.HeapIndex;
 		itemB.HeapIndex = itemAIndex;
 	}
 }
-
+//当我们自己在创建一个结构体想要提升它的比较效率的时候，我们自己也能通过IComparable来实现
+//感觉是为了使用compareTo函数，引入的接口
+//泛型编程，IHeaoItem 继承自IConpareble,需要引入头文件system
 public interface IHeapItem<T> : IComparable<T> {
+	//HeapIndex，堆索引的由来
+	//这里不是很懂
+	//
 	int HeapIndex {
 		get;
 		set;
