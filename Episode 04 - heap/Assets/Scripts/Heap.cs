@@ -43,6 +43,8 @@ public class Heap<T> where T : IHeapItem<T> {
 		return firstItem;
 	}
 	//这个函数是干么的
+	//这个函数是为了更新邻居的距离
+	//一旦调用这个韩式就是要增加邻居节点的优先级，所以不需要排序
 	public void UpdateItem(T item) {
 		SortUp(item);
 	}
@@ -56,6 +58,7 @@ public class Heap<T> where T : IHeapItem<T> {
 	//这个函数是用来检查这个堆中是否包含特定的项
 	//可是这个函数也没有遍历啊
 	public bool Contains(T item) {
+		//这个堆是用在open表中搜索f值最小的项
 		return Equals(items[item.HeapIndex], item);
 	}
 	//向下构造，就是父节点与孩子们比较
