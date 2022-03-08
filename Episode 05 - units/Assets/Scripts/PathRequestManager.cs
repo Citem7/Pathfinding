@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 public class PathRequestManager : MonoBehaviour {
-
+	//或许这是一个队列，用来存储路径请求
 	Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
 	PathRequest currentPathRequest;
 
@@ -12,7 +12,8 @@ public class PathRequestManager : MonoBehaviour {
 	Pathfinding pathfinding;
 
 	bool isProcessingPath;
-
+	
+	//将相同的路径放在不同的帧里，好像是这样
 	void Awake() {
 		instance = this;
 		pathfinding = GetComponent<Pathfinding>();
