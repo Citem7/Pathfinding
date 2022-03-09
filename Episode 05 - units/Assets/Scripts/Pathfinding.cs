@@ -9,24 +9,30 @@ public class Pathfinding : MonoBehaviour {
 	Grid grid;
 	
 	void Awake() {
+		//调用路径请求管理器
 		requestManager = GetComponent<PathRequestManager>();
 		grid = GetComponent<Grid>();
 	}
 	
-	
+	//我们不再需要update函数
+	//我们不在需要seeker和target，现在使用的是路径请求管理器
+	//一旦发现路径，需要在路径请求管理器脚本中调用完成的处理路径
 	public void StartFindPath(Vector3 startPos, Vector3 targetPos) {
+		//找到路径并传递起始和目标位置
+		
 		StartCoroutine(FindPath(startPos,targetPos));
 	}
 	
 	IEnumerator FindPath(Vector3 startPos, Vector3 targetPos) {
-
+		//存储路径点
 		Vector3[] waypoints = new Vector3[0];
+		//默认情况下，这等于false，只有当我们找到路径时，这个才会为真
 		bool pathSuccess = false;
 		
 		Node startNode = grid.NodeFromWorldPoint(startPos);
 		Node targetNode = grid.NodeFromWorldPoint(targetPos);
 		
-		
+		//在这里判断节点是否可以行走
 		if (startNode.walkable && targetNode.walkable) {
 			Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
 			HashSet<Node> closedSet = new HashSet<Node>();
@@ -37,6 +43,7 @@ public class Pathfinding : MonoBehaviour {
 				closedSet.Add(currentNode);
 				
 				if (currentNode == targetNode) {
+					//所以如果当前的note等于目标节，为真
 					pathSuccess = true;
 					break;
 				}
@@ -59,6 +66,7 @@ public class Pathfinding : MonoBehaviour {
 			}
 		}
 		yield return null;
+		//路径从这里返回
 		if (pathSuccess) {
 			waypoints = RetracePath(startNode,targetNode);
 		}
