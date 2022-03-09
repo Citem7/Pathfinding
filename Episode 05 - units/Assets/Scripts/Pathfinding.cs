@@ -73,7 +73,8 @@ public class Pathfinding : MonoBehaviour {
 		requestManager.FinishedProcessingPath(waypoints,pathSuccess);
 		
 	}
-	
+	//路径平滑将在下一节中，现在要做的就是简化路径
+	//路径点只会再路径改变的方向出现，所以不会有几百个多余的路径点
 	Vector3[] RetracePath(Node startNode, Node endNode) {
 		List<Node> path = new List<Node>();
 		Node currentNode = endNode;
@@ -82,23 +83,30 @@ public class Pathfinding : MonoBehaviour {
 			path.Add(currentNode);
 			currentNode = currentNode.parent;
 		}
+		//在我们反转路径之前，先简化路径		
 		Vector3[] waypoints = SimplifyPath(path);
+		//我们不逆转路径，我们逆转路径点，最后我们返回路径点
+		//这里是一个数组
 		Array.Reverse(waypoints);
 		return waypoints;
 		
 	}
-	
+	//简化路径
 	Vector3[] SimplifyPath(List<Node> path) {
+		//创建列表存储路径点
 		List<Vector3> waypoints = new List<Vector3>();
+		//创建一个向量，来存储最后两个节点的方向，所以就是旧的方向
 		Vector2 directionOld = Vector2.zero;
 		
 		for (int i = 1; i < path.Count; i ++) {
 			Vector2 directionNew = new Vector2(path[i-1].gridX - path[i].gridX,path[i-1].gridY - path[i].gridY);
 			if (directionNew != directionOld) {
+				//路径实际上改变了方向，我们把这个路径点添加到路径点列表中
 				waypoints.Add(path[i].worldPosition);
 			}
 			directionOld = directionNew;
 		}
+		//一旦我们完成了这个循环，我们只需要将这个列表转换成一个数组并返回它
 		return waypoints.ToArray();
 	}
 	
