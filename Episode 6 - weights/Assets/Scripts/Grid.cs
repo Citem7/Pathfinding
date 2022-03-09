@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+//这个地形惩罚也就是绿色的草地带有的惩罚值，褐色的公路是0
 public class Grid : MonoBehaviour {
 
 	public bool displayGridGizmos;
 	public LayerMask unwalkableMask;
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
+	//地形类型数组
+	//每次搜索这个数组，有点慢，所以建立一个字典
 	public TerrainType[] walkableRegions;
+	//字典
 	Dictionary<int,int> walkableRegionsDictionary = new Dictionary<int, int>();
+	//创建一个称为可行走蒙版的图层蒙版
+	//能够包括可行走区域数组中的所有图层
 	LayerMask walkableMask;
 
 	Node[,] grid;
@@ -21,9 +26,12 @@ public class Grid : MonoBehaviour {
 		nodeDiameter = nodeRadius*2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter);
-
+		//遍历每个地形类型
 		foreach (TerrainType region in walkableRegions) {
+			//位运算 这是用来计算地形的权值么，通过图层的值，第九层是二进制：1000000000（1后面9个0），第十层：1后面10个0，两者进行或运算，就是相加啦    
 			walkableMask.value |= region.terrainMask.value;
+			//将惩罚添加到字典，字典的键就是图层
+			//转换成整数
 			walkableRegionsDictionary.Add((int)Mathf.Log(region.terrainMask.value,2),region.terrainPenalty);
 		}
 
@@ -44,17 +52,18 @@ public class Grid : MonoBehaviour {
 			for (int y = 0; y < gridSizeY; y ++) {
 				Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
 				bool walkable = !(Physics.CheckSphere(worldPoint,nodeRadius,unwalkableMask));
-
+				//创建网格的时候把惩罚加进去
 				int movementPenalty = 0;
-
+				//判断是否能走
 				if (walkable) {
 					Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
 					RaycastHit hit;
 					if (Physics.Raycast(ray,out hit, 100, walkableMask)) {
+						//获取键值
 						walkableRegionsDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
 					}
 				}
-
+				//这个加入惩罚值
 				grid[x,y] = new Node(walkable,worldPoint, x,y, movementPenalty);
 			}
 		}
@@ -101,10 +110,12 @@ public class Grid : MonoBehaviour {
 			}
 		}
 	}
-
+	//地形
+	//LayerMask地形蒙版
 	[System.Serializable]
 	public class TerrainType {
 		public LayerMask terrainMask;
+		//地形惩罚
 		public int terrainPenalty;
 	}
 
