@@ -61,6 +61,10 @@ public class Pathfinding : MonoBehaviour {
 						
 						if (!openSet.Contains(neighbour))
 							openSet.Add(neighbour);
+						//这里少了一个东西，if这个邻居点没有在open表中，那么添加
+						//else 既然已经进入了这个判断中，那么就需要更新路径值
+						else 
+							openSet.UpdateItem(neighbour)
 					}
 				}
 			}
