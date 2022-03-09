@@ -7,6 +7,7 @@ public class Node : IHeapItem<Node> {
 	public Vector3 worldPosition;
 	public int gridX;
 	public int gridY;
+	//惩罚，其实也就是权值
 	public int movementPenalty;
 
 	public int gCost;
