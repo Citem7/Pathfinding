@@ -52,7 +52,7 @@ public class Pathfinding : MonoBehaviour {
 					if (!neighbour.walkable || closedSet.Contains(neighbour)) {
 						continue;
 					}
-					
+					//把惩罚值整合到寻路算法中，当我们为邻居设置新的移动成本时
 					int newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour) + neighbour.movementPenalty;
 					if (newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) {
 						neighbour.gCost = newMovementCostToNeighbour;
