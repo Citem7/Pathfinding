@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+//我们不希望grid类和路径有任何关系，因此我们可以删除与该路径path有关的所有内容
 public class Grid : MonoBehaviour {
 
 	public bool displayGridGizmos;
