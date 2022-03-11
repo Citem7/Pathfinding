@@ -4,7 +4,7 @@ using System.Collections;
 public class Grid : MonoBehaviour {
 
 	public LayerMask unwalkableMask;//障碍物层
-	public Vector2 gridWorldSize;
+	public Vector2 gridWorldSize;//
 	public float nodeRadius;//格子半径
 	Node[,] grid;
 
