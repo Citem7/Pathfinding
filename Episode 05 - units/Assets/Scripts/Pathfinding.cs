@@ -69,6 +69,7 @@ public class Pathfinding : MonoBehaviour {
 				}
 			}
 		}
+		//https://www.cnblogs.com/Dearmyh/p/9317699.html
 		yield return null;
 		//路径从这里返回
 		if (pathSuccess) {
