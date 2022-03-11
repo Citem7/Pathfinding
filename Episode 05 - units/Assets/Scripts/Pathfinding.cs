@@ -70,7 +70,7 @@ public class Pathfinding : MonoBehaviour {
 			}
 		}
 		//https://www.cnblogs.com/Dearmyh/p/9317699.html
-		yield return null;
+		yield return null;//程序会等待一帧，然后从该位置继续执行
 		//路径从这里返回
 		if (pathSuccess) {
 			waypoints = RetracePath(startNode,targetNode);
